@@ -1,10 +1,8 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+
+import {createRouter,createWebHashHistory} from 'vue-router'
 import Connection from '../views/Connection'
 import Feed from '../views/Feed'
 import Register from '../views/Register'
-
-Vue.use(VueRouter)
 
 const routes = [
   {
@@ -24,7 +22,9 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHashHistory(),
+
   routes
 })
 

@@ -36,6 +36,7 @@
 export default {
   methods: {
     connection(e) {
+      this.errors = [];
       e.preventDefault();
       fetch("http://localhost:3000/api/auth/login", {
         headers: {
@@ -48,10 +49,15 @@ export default {
           password: this.password,
         }),
       })
-        .then((response) => console.log(response))
+        .then((response) => response.json())
+        .then((data) => {
+          if (!data.status) {
+            throw data;
+          }
+        })
         .catch((error) => {
           console.log(error);
-          this.errors.push(error.error.details); //error.error.details
+          this.errors.push(error.error); //error.error.details
         });
     },
   },

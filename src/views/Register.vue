@@ -10,25 +10,55 @@
         </ul>
       </div>
       <div>
-        <input type="text" id="lastname" name="lastname" placeholder="Nom" v-model="lastname" />
+        <input
+          type="text"
+          id="lastname"
+          name="lastname"
+          placeholder="Nom"
+          v-model="lastname"
+        />
         <br />
       </div>
       <div>
         <br />
-        <input   type="text" id="firstname" name="firstname" placeholder="Prénom" v-model="firstname" />
+        <input
+          type="text"
+          id="firstname"
+          name="firstname"
+          placeholder="Prénom"
+          v-model="firstname"
+        />
         <br />
       </div>
       <div>
         <br />
-        <input type="email" id="mail" name="mail" placeholder="Adresse mail" v-model="mail" />
+        <input
+          type="email"
+          id="mail"
+          name="mail"
+          placeholder="Adresse mail"
+          v-model="mail"
+        />
       </div>
       <div>
         <br />
-        <input type="password" id="password" name="password" placeholder="Mot de passe" v-model="password" />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Mot de passe"
+          v-model="password"
+        />
       </div>
       <div>
         <br />
-        <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" v-model="username" />
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Nom d'utilisateur"
+          v-model="username"
+        />
       </div>
       <br />
       <input class="envoi" type="submit" value="Envoyer" />
@@ -40,8 +70,7 @@
 export default {
   methods: {
     register(e) {
-      
-      //this.errors.push(result.error);
+      this.errors = [];
       e.preventDefault();
       console.log(this.username);
       fetch("http://localhost:3000/api/auth/signup", {
@@ -51,23 +80,29 @@ export default {
         },
         method: "post",
         body: JSON.stringify({
-          lastName: this.lastname,
+          lastname: this.lastname,
           firstName: this.firstname,
           email: this.mail,
           password: this.password,
           userName: this.username,
         }),
       })
-      .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           if (!data.status) {
             throw data;
-          } 
-          this.$router.push('/connexion')
+          }
+          this.$router.push("/connexion");
+          this.$notify({
+            title: "Succès",
+            text: "compte crée avec succès",
+          });
         })
         .catch((error) => {
-          console.log(error)
-          this.errors.push(error.message); //error.error.details
+          console.log(error);
+          for (let i = 0; i <= this.errors.length; i++) {
+            this.errors.push(error.error.details[i].message);
+          }
         });
     },
   },

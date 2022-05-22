@@ -1,6 +1,7 @@
 <template>
   <div id="app">
      <img src="@/assets/Logos/icon-above-font.png" class="icon-above" alt="logo" /> <br />
+     <notifications />
     <div id="nav">
       <router-link to="/">Fil d'actualite</router-link> |
       <router-link to="/connexion">Connexion</router-link> |
