@@ -29,14 +29,14 @@ exports.createPost = (req, res, next) => {
 exports.getAllContents = (req, res, next) => {
     const connection = Db.get();
     let allContents = "SELECT * FROM post LIMIT ?, ?";
-    let offset = [parseInt(req.query.offset) ?? 0, parseInt(req.query.limit)];
+    let offset = [parseInt(req.query.offset) ?? 0, parseInt(req.query.limit) ?? 5];
     allContents = connection.format(allContents, offset);
     connection.promise().query(allContents)
         .then(([rows, fields]) => {
+            for(let i in rows) {
+                rows[i].imageURL = `${req.protocol}://${req.get('host')}/images/${rows[i].imageURL}`;
+            }
             return res.status(201).json({ posts: rows });
         })
         .catch(error => res.status(500).json({ error }));
 }
-/*while(post.length > 0) {
-    `${req.protocol}://${req.get('host')}/images/${post.imageURL}`
-}*/
