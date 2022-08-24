@@ -7,21 +7,22 @@ const multer = require('../middleware/multer-config')
 exports.createPost = (req, res, next) => {
     const connection = Db.get();
     const post = {
-        contain: JSON.parse(req.body.data).contain,
+        contain: req.body.content,
         userId: req.auth.userId,
         date: DateTime.now().toFormat("yyyy-LL-dd HH:mm:ss"),
-        imageURL: req.file.filename
+        imageURL: req.file ? req.file.filename : undefined
     };
     const result = contentSchema.validate(post, { allowUnknown: true });
     if (!result.error) {
+      //  console.log(result)
         let sql = "INSERT INTO `post`(contain, user_id, picture, date) VALUES (?,?,?,?) ";
         const inserts = [post.contain, post.userId, post.imageURL, post.date];
         sql = connection.format(sql, inserts);
         connection.promise().query(sql)
-            .then(() => res.status(201).json({ Message: 'post enregistré' }))
+            .then(() => res.status(201).json({ Message: 'post enregistré', status: true}))
             .catch(error => res.status(500).json({ error }));
     } else {
-        res.json({ message: "ce post ne peut pas être publié", error: result.error })
+        res.status(400).json({ message: "ce post ne peut pas être publié", error: result.error })
     }
 }
 
@@ -29,7 +30,7 @@ exports.createPost = (req, res, next) => {
 exports.getAllContents = (req, res, next) => {
     const connection = Db.get();
     let allContents = "SELECT * FROM post LIMIT ?, ?";
-    let offset = [parseInt(req.query.offset) ?? 0, parseInt(req.query.limit) ?? 5];
+    let offset = [parseInt(req.query.offset ?? 0), parseInt(req.query.limit ?? 5)];
     allContents = connection.format(allContents, offset);
     connection.promise().query(allContents)
         .then(([rows, fields]) => {

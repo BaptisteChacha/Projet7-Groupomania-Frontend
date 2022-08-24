@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const Db = require('../services/db');
 require('dotenv').config();
 const userSchema = require('../models/user-validate');
+const formatError = require('../services/utils');
 
 
 exports.signup = (req, res, next) => {
@@ -20,7 +21,7 @@ exports.signup = (req, res, next) => {
       .then(([rows, fields]) => {
         console.log(rows)
         if (rows[0].counter != 0) {
-          res.status(400).json({ message: 'Adresse mail déjà utilisé' })
+          res.status(400).json(formatError("Cette adresse mail est deja utilisée"))
         } else {
 
           bcrypt.hash(user.password, 10)
