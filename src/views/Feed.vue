@@ -33,11 +33,15 @@
     <input class="envoi" type="submit" value="Envoyer" />
   </form>
   
-   <h1 v-for="description in descriptions" :key="description">
-     {{ description.imageURL }}
+   <h1 v-for="description in descriptions" :key="description"> <hr>
+    <!-- {{ descriptions }} -->
+    <img :src="description.imageURL">
+     {{ description.imageURL }} <br>
     <span> Description: </span> {{ description.contain }} <br> 
-    <span> Date: </span> {{ description.date }}
-      </h1>
+    <span> Date: </span> {{ description.date }} <br>
+    <span> Utilisateur: </span> {{ description.username }} <br> 
+      </h1> 
+      <button @click="voirPlus"> Voir plus </button>
         
 </div>
 </template>
@@ -101,6 +105,9 @@ export default {
     },
     changedFile(e) {
       this.selectedFile = e.target.files[0];
+    },
+    voirPlus() {
+
     }
   },
   data() {
@@ -113,6 +120,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+hr {
+  align-content: center;
+  width: 100%;
+}
 label {
   color: blue;
   &:hover {

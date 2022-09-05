@@ -114,3 +114,14 @@ label {
   height: 20%;
 }
 </style>
+<script> 
+import jwt_decode from "jwt-decode";
+export default {
+  created() {
+    let token = window.localStorage.getItem("token");
+    console.log(token)
+    let decoded = jwt_decode(token);
+    console.log(decoded)
+  }
+}
+</script>

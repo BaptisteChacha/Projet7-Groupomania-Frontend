@@ -11,7 +11,8 @@ export default createStore({
   },
   mutations: {
     SET_TOKEN(state, payload) {
-      state.token = payload
+      state.token = payload;
+      window.localStorage.setItem("token", payload);
   }
   },
   actions: {
