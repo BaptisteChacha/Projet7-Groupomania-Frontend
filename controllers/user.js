@@ -66,7 +66,7 @@ exports.login = (req, res, next) => {
               process.env.KEY,
               { expiresIn: '24h' }
             ),
-            user: user
+            user: user,
           });
         })
     })
