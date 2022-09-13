@@ -1,13 +1,18 @@
 <template>
   <div id="app">
-     <img src="@/assets/Logos/icon-above-font.png" class="icon-above" alt="logo" /> <br />
-     <notifications />
+    <img
+      src="@/assets/Logos/icon-above-font.png"
+      class="icon-above"
+      alt="logo"
+    />
+    <br />
+    <notifications />
     <div id="nav">
       <router-link to="/">Fil d'actualite</router-link> |
       <router-link to="/connexion">Connexion</router-link> |
-       <router-link to="/inscription">Inscription</router-link> |
+      <router-link to="/inscription">Inscription</router-link> |
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
@@ -109,19 +114,24 @@ label {
     flex: 1;
   }
 }
-.icon-above{
+.icon-above {
   width: 20%;
   height: 20%;
 }
 </style>
-<script> 
+<script>
 import jwt_decode from "jwt-decode";
 export default {
   created() {
     let token = window.localStorage.getItem("token");
-    console.log(token)
+    console.log(token);
     let decoded = jwt_decode(token);
-    console.log(decoded)
+    console.log(decoded);
+
+    let current_time = new Date().getTime() / 1000;
+    if (current_time <= decoded.exp) {
+      this.$store.commit("SET_TOKEN", token)
   }
 }
+};
 </script>

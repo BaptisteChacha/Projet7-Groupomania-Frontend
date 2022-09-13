@@ -22,3 +22,9 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+# Presentation
+* Une page d'inscription
+* Une page de connexion
+* Une page pour le fil d'actualité

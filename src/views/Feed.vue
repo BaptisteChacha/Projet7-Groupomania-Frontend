@@ -35,8 +35,8 @@
   
    <h1 v-for="description in descriptions" :key="description"> <hr>
     <!-- {{ descriptions }} -->
-    <img :src="description.imageURL">
-     {{ description.imageURL }} <br>
+    <span class="images"> <img :src="description.imageURL"> <br> </span>
+     <!-- {{ description.imageURL }} <br> -->
     <span> Description: </span> {{ description.contain }} <br> 
     <span> Date: </span> {{ description.date }} <br>
     <span> Utilisateur: </span> {{ description.username }} <br> 
@@ -107,13 +107,14 @@ export default {
       this.selectedFile = e.target.files[0];
     },
     voirPlus() {
-
+      
     }
   },
   data() {
     return {
       descriptions: "",
       selectedFile: undefined,
+     // offset: 5,
     };
   },
 };
@@ -123,6 +124,9 @@ export default {
 hr {
   align-content: center;
   width: 100%;
+  img{
+    font-size: 1px;
+  }
 }
 label {
   color: blue;
@@ -166,5 +170,8 @@ $file-upload-size: 300px;
 span{
   color: black;
   font-weight: bold;
+}
+.images{
+  font-size: 1em;
 }
 </style>
