@@ -5,13 +5,13 @@ require('dotenv').config();
 const userSchema = require('../models/user-validate');
 const formatError = require('../services/utils');
 
-
+// Fonction pour s'enregistrer
 exports.signup = (req, res, next) => {
   const connection = Db.get();
   const user = {
     ...req.body
   };
-  console.log(user)
+  console.log(user);
   const result = userSchema.validate(user, {abortEarly: false});
   if (!result.error) {
 
@@ -72,3 +72,23 @@ exports.login = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 };
+exports.deleteCount = (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');  // Modifiez cette valeur pour correspondre à l'origine de la requête
+  const connection = Db.get(); 
+  let selectQuery = "SELECT * FROM user WHERE id = ? " ;
+  let id = parseInt(req.query.id);
+  selectQuery = connection.format(selectQuery, id);
+  
+  connection.promise().query(selectQuery)
+  .then(([rows, fields]) => {
+    if (rows.length === 0) {
+      return res.status(404).json({ Message: 'Utilisateur non trouvé', status: false });
+    }
+    let deleteQuery = "DELETE FROM user WHERE id = ? " ;
+    deleteQuery = connection.format(deleteQuery, id);
+    connection.promise().query(deleteQuery)
+    .then(() => res.status(200).json({ Message: 'compte supprimé', status: true }))
+    .catch(error => res.status(500).json({ error }));
+  })
+  .catch(error => res.status(500).json({ error }));
+}

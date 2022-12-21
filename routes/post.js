@@ -7,5 +7,6 @@ const contenuCtrl = require('../controllers/content');
 
 router.post('/createPost', auth, multer, contenuCtrl.createPost);
 router.get('/getAllContents', auth, contenuCtrl.getAllContents);
+router.get('/deleteContents', auth, contenuCtrl.deleteContents);
 
 module.exports = router;
