@@ -6,7 +6,7 @@ export default createStore({
   },
   getters: {
     receivedToken(state) {
-      return `${state.token}`
+      return `${state.token}`;
     }
   },
   mutations: {

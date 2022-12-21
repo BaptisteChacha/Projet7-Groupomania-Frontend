@@ -3,11 +3,6 @@
     <form @submit="register">
       <div class="segment">
         <h1>Sign up</h1>
-        <p>
-          La date stockée dans Vuex est le {{ $store.state.day }}-{{
-            $store.state.month
-          }}-{{ $store.state.year }}.
-        </p>
         <ul>
           <li v-for="error in errors" :key="error">
             {{ error }}
@@ -78,7 +73,7 @@ export default {
     register(e) {
       this.errors = [];
       e.preventDefault();
-      console.log(this.username);
+     // console.log(this.username);
       fetch("http://localhost:3000/api/auth/signup", {
         headers: {
           Accept: "application/json",

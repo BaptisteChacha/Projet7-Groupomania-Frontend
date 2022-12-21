@@ -5,10 +5,10 @@ import Notifications from '@kyvg/vue3-notification'
 import store from './store'
 
 
-const app = createApp(App).use(store)
-app.use(Notifications)
+const app = createApp(App).use(store);
+app.use(Notifications);
 // Make sure to _use_ the router instance to make the
 // whole app router-aware.
-app.use(router)
+app.use(router);
 
-app.mount('#app')
+app.mount('#app');

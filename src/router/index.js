@@ -1,8 +1,8 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import Connection from '../views/Connection'
-import Feed from '../views/Feed'
-import Register from '../views/Register'
-import store from '../store/index'
+import { createRouter, createWebHashHistory } from 'vue-router';
+import Connection from '../views/Connection';
+import Feed from '../views/Feed';
+import Register from '../views/Register';
+import store from '../store/index';
 
 const routes = [
   {
@@ -30,7 +30,7 @@ const routes = [
     name: 'inscription',
     component: Register
   }
-]
+];
 
 const router = createRouter({
   history: createWebHashHistory(),

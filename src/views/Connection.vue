@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="background">
     <form @submit="connection">
       <h1>Login</h1>
       <ul>
@@ -29,7 +29,6 @@
       <br />
       <input class="envoi" type="submit" value="Connexion" />
     </form>
-    {{ $store.getters.receivedToken }}
   </div>
 </template>
 
@@ -55,7 +54,7 @@ export default {
           if (!data.token) {
             throw data;
           }
-          this.$store.commit("SET_TOKEN", data.token)
+          this.$store.commit("SET_TOKEN", data.token);
           this.$router.push("/");
           this.$notify({
             title: "Succès",
@@ -64,7 +63,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          this.errors.push(error.error); //error.error.details
+          this.errors.push(error.error);
         });
     },
   },
@@ -79,7 +78,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.background, nav{
+  background: rgba(78,81,102,1);
+}
 li{
   color: red;
 }
+form {
+  position: relative;
+  width: 250px;
+  margin: 0 auto;
+  padding: 20px 22px;
+  //border: 1px solid;
+  border-top-color: rgba(255,255,255,.4);
+  border-left-color: rgba(255,255,255,.4);
+  border-bottom-color: rgba(60,60,60,.4);
+  border-right-color: rgba(60,60,60,.4);
+}
+
 </style>
