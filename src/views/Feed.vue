@@ -37,7 +37,7 @@
       
       <!-- {{ descriptions }} -->
       <span class="username"> {{ description.username }} </span>
-      <button class="deleteCount" v-if="$store.state.token" @click="deleteCount(description.id)">supprimer le compte</button><br />
+      <button class="deleteCount" v-if="$store.state.token" @click="deleteCount(id)">supprimer le compte</button><br />
       <br />
       <button class="deletePost" v-if="$store.state.token" @click="deletePost(description.id)">supprimer le post</button><br />
       <br />
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+//import axios from 'axios';
+import jwt_decode from "jwt-decode";
 export default {
   created() {
     this.seeMore();
@@ -63,6 +65,7 @@ export default {
       let formData = new FormData();
       formData.append("content", this.description);
       console.log(formData);
+      console.log(this.description)
       if (this.selectedFile) {
         formData.append("imageURL", this.selectedFile);
       }
@@ -92,6 +95,7 @@ export default {
             text: "post non enregistré",
           });
         });
+        //location.reload();
     },
     changedFile(e) {
       this.selectedFile = e.target.files[0];
@@ -138,36 +142,35 @@ export default {
           },
         })
         .then((response) => console.log(response.json()))
-        .then(() => {
-          this.$router.push("/");
-        })
         .catch((error) => {
           console.log(error);
         });
         alert("Post supprimé");
+        location.reload();
 
       }
     },
-    deleteCount(id) {
-      localStorage.getItem("token");
+  deleteCount() {
+    let token = window.localStorage.getItem("token");
+      console.log(token);
+      let decoded = jwt_decode(token);
+      console.log(decoded.id);
+     // let id = decoded.id;
       let response = window.confirm("Etes-vous sûr?");
       if (response) {
-        fetch("http://localhost:3000/api/user/deleteCount?id=" + id , {
+        fetch("http://localhost:3000/api/content/deleteCount?id=" + decoded.id , {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: "Bearer " + this.$store.state.token,
           },
         })
-        .then((response) => console.log(response.json()))
-        .then(() => {
-          this.$router.push("/connexion");
-        })
+        .then(() => console.log(response.json()))
         .catch((error) => {
           console.log(error);
         });
-        alert("compte supprimé");
-
+        alert("Compte supprimé");
+        location.reload();
       }
     },
   },
@@ -177,6 +180,7 @@ export default {
       selectedFile: undefined,
       offset: 0,
       counter: 0,
+      id : 0,
     };
   },
 };

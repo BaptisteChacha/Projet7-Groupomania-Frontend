@@ -21,13 +21,13 @@
 
 <script>
 import jwt_decode from "jwt-decode";
-import axios from 'axios';
+//import axios from 'axios';
 export default {
   created() {
     let token = window.localStorage.getItem("token");
     console.log(token);
     let decoded = jwt_decode(token);
-    console.log(decoded);
+    console.log(decoded.id);
 
     let current_time = new Date().getTime() / 1000;
     if (current_time <= decoded.exp) {
@@ -39,17 +39,6 @@ export default {
       this.$store.commit("SET_TOKEN", undefined);
       this.$router.push("/connexion");
     },
-  methods: {
-  async handleDelete() {
-    try {
-      const response = await axios.delete('http://localhost:3000/api/user/deleteCount?id=${id}');
-      const data = response.data;
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  },
-},
   },
 };
 </script>
@@ -101,6 +90,7 @@ form {
 }
 form input,
 form button {
+  color: black;
   width: 212px;
   border: 1px solid;
   border-bottom-color: rgba(255, 255, 255, 0.5);
