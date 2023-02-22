@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-    <form @submit="connection">
+    <form @click="connection">
       <h1>Login</h1>
       <ul>
         <li v-for="error in errors" :key="error">
@@ -38,6 +38,9 @@ export default {
     connection(e) {
       this.errors = [];
       e.preventDefault();
+      console.log("bonjour")
+      console.log('mail: '+ this.mail);
+      console.log('password: '+ this.password);
       fetch("http://localhost:3000/api/auth/login", {
         headers: {
           Accept: "application/json",
@@ -51,9 +54,13 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log('data', data);
           if (!data.token) {
+           /* this.$store.commit("SET_TOKEN", data.token);
+            console.log(this.$store.commit)*/
             throw data;
           }
+          //localStorage.setItem('token', data.token)
           this.$store.commit("SET_TOKEN", data.token);
           this.$router.push("/");
           this.$notify({
@@ -62,7 +69,7 @@ export default {
           });
         })
         .catch((error) => {
-          console.log(error);
+          console.log('error', error);
           this.errors.push(error.error);
         });
     },

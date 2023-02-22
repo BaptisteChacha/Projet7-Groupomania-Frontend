@@ -35,9 +35,10 @@
 
     <div class="post" v-for="description in descriptions" :key="description">
       
-      <!-- {{ descriptions }} -->
+      {{ description.moderateur }}
       <span class="username"> {{ description.username }} </span>
-      <button class="deleteCount" v-if="$store.state.token" @click="deleteCount(id)">supprimer le compte</button><br />
+      <div button class="deleteCount" v-if="description.moderateur==1" @click="deleteCount(id)">supprimer le compte </div>
+      <!--<div class="deleteCount" v-else-if="$store.state.token" @click="deleteCount(id)">supprimer le compte</div> -->
       <br />
       <button class="deletePost" v-if="$store.state.token" @click="deletePost(description.id)">supprimer le post</button><br />
       <br />
@@ -45,7 +46,7 @@
       <div class="images"><img :src="description.imageURL" /> <br /></div>
       <span> Date: </span> {{ description.date }} <br />
     </div>
-    <button v-if="counter > offset" class="seeMore" @click="seeMore">
+    <button v-if="counter > offset" class="seeMore" @click="seeMore ">
       Voir plus
     </button>
   </div>
@@ -54,6 +55,15 @@
 <script>
 //import axios from 'axios';
 import jwt_decode from "jwt-decode";
+
+/*import Button from './Button.vue';
+export default {
+	name: 'App',
+	components: {
+		Button
+	}
+}*/
+
 export default {
   created() {
     this.seeMore();
@@ -65,7 +75,7 @@ export default {
       let formData = new FormData();
       formData.append("content", this.description);
       console.log(formData);
-      console.log(this.description)
+      console.log(this.description);
       if (this.selectedFile) {
         formData.append("imageURL", this.selectedFile);
       }
@@ -95,7 +105,7 @@ export default {
             text: "post non enregistré",
           });
         });
-        //location.reload();
+      location.reload();
     },
     changedFile(e) {
       this.selectedFile = e.target.files[0];
@@ -127,48 +137,50 @@ export default {
     },
 
     deconnect() {
-      this.$store.state.token = undefined;
+      this.$store.state.token == undefined;
       this.$router.push("/connexion");
     },
     deletePost(id) {
       localStorage.getItem("token");
       let response = window.confirm("Etes-vous sûr?");
       if (response) {
-        fetch("http://localhost:3000/api/content/deleteContents?id=" + id , {
+        fetch("http://localhost:3000/api/content/deleteContents?id=" + id, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: "Bearer " + this.$store.state.token,
           },
         })
-        .then((response) => console.log(response.json()))
-        .catch((error) => {
-          console.log(error);
-        });
+          .then((response) => console.log(response.json()))
+          .catch((error) => {
+            console.log(error);
+          });
         alert("Post supprimé");
         location.reload();
-
       }
     },
-  deleteCount() {
-    let token = window.localStorage.getItem("token");
+    deleteCount() {
+      let token = window.localStorage.getItem("token");
       console.log(token);
       let decoded = jwt_decode(token);
       console.log(decoded.id);
-     // let id = decoded.id;
+      // let id = decoded.id;
       let response = window.confirm("Etes-vous sûr?");
       if (response) {
-        fetch("http://localhost:3000/api/content/deleteCount?id=" + decoded.id , {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: "Bearer " + this.$store.state.token,
-          },
-        })
-        .then(() => console.log(response.json()))
-        .catch((error) => {
-          console.log(error);
-        });
+        fetch(
+          "http://localhost:3000/api/content/deleteCount?id=" + decoded.id,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: "Bearer " + this.$store.state.token,
+            },
+          }
+        )
+          .then(() => console.log(response.json()))
+          .catch((error) => {
+            console.log(error);
+          });
         alert("Compte supprimé");
         location.reload();
       }
@@ -180,7 +192,7 @@ export default {
       selectedFile: undefined,
       offset: 0,
       counter: 0,
-      id : 0,
+      id: 0,
     };
   },
 };
@@ -245,19 +257,19 @@ span {
   width: 20%;
 }
 .envoi {
-  .envoi{
-  width: 248px;
-  margin-bottom: 0;
-  color: blue;
-  letter-spacing: .05em;
-  text-shadow: 0 1px 0 #133d3e;
-  text-transform: uppercase;
-  background: #FFD7D7;
-  border-top-color: #9fb5b5;
-  border-left-color: #608586;
-  border-bottom-color: #1b4849;
-  border-right-color: #1e4d4e;
-  cursor: pointer;
+  .envoi {
+    width: 248px;
+    margin-bottom: 0;
+    color: blue;
+    letter-spacing: 0.05em;
+    text-shadow: 0 1px 0 #133d3e;
+    text-transform: uppercase;
+    background: #ffd7d7;
+    border-top-color: #9fb5b5;
+    border-left-color: #608586;
+    border-bottom-color: #1b4849;
+    border-right-color: #1e4d4e;
+    cursor: pointer;
   }
 }
 .deletePost {
@@ -282,10 +294,10 @@ span {
     cursor: pointer;
   }
 }
-.post{
-      border: 5px solid;
-      padding-bottom: 1%;
-      margin-bottom: 1%;
+.post {
+  border: 5px solid;
+  padding-bottom: 1%;
+  margin-bottom: 1%;
 }
 form {
   border: 0px;

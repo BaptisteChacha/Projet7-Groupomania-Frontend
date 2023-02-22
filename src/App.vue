@@ -20,24 +20,24 @@
 </template>
 
 <script>
-import jwt_decode from "jwt-decode";
-//import axios from 'axios';
+//import jwt_decode from "jwt-decode";
 export default {
-  created() {
-    let token = window.localStorage.getItem("token");
+  /*created() {
+    const token = window.localStorage.getItem("token");
     console.log(token);
-    let decoded = jwt_decode(token);
+    const decoded = jwt_decode(token);
     console.log(decoded.id);
 
     let current_time = new Date().getTime() / 1000;
     if (current_time <= decoded.exp) {
       this.$store.commit("SET_TOKEN", token);
     }
-  },
+  },*/
   methods: {
     deconnect() {
       this.$store.commit("SET_TOKEN", undefined);
       this.$router.push("/connexion");
+      localStorage.clear()
     },
   },
 };

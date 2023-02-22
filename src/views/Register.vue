@@ -67,8 +67,11 @@
 </template>
 
 <script>
-//import Error from '../Backend/services/utils.js'
 export default {
+/*beforeCreated() {
+  localStorage.clear();
+},*/
+
   methods: {
     register(e) {
       this.errors = [];
